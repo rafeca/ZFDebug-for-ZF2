@@ -6,9 +6,8 @@ with Zend Framework 2.0
 Currently it is based on an experimental version of ZFDebug 1.6, grabbed from its SVN
 repository (revision 154 of the trunk).
 
-There has also been added an Application Resource, to make it easier to initialse
-ZFDebug from the application.ini config file.
-
+Most work done it's related to namespace additions. There has also been added an Application
+Resource, to make it easier to initialse ZFDebug from the application.ini config file.
 
 ## Installation instructions
 
