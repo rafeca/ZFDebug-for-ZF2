@@ -10,6 +10,10 @@
  * @version    $Id: Exception.php 152 2010-06-18 15:38:32Z gugakfugl $
  */
 
+namespace ZFDebug\Controller\Plugin\Debug\Plugin;
+
+use \Zend\Controller\Front as FrontController;
+
 /**
  * @category   ZFDebug
  * @package    ZFDebug_Controller
@@ -17,7 +21,7 @@
  * @copyright  Copyright (c) 2008-2009 ZF Debug Bar Team (http://code.google.com/p/zfdebug)
  * @license    http://code.google.com/p/zfdebug/wiki/License     New BSD License
  */
-class ZFDebug_Controller_Plugin_Debug_Plugin_Exception implements ZFDebug_Controller_Plugin_Debug_Plugin_Interface
+class Exception implements PluginInterface
 {
     protected static $_logger;
     
@@ -45,7 +49,7 @@ class ZFDebug_Controller_Plugin_Debug_Plugin_Exception implements ZFDebug_Contro
     public static function getLogger()
     {
         if (!self::$_logger) {
-            if ($zfdebug = Zend_Controller_Front::getInstance()->getPlugin('ZFDebug_Controller_Plugin_Debug')) {
+            if ($zfdebug = FrontController::getInstance()->getPlugin('ZFDebug_Controller_Plugin_Debug')) {
                 self::$_logger = $zfdebug->getPlugin('Log')->getLog();
             } else {
                 return false;
@@ -91,7 +95,7 @@ class ZFDebug_Controller_Plugin_Debug_Plugin_Exception implements ZFDebug_Contro
      */
     public function getTab()
     {
-        $response = Zend_Controller_Front::getInstance()->getResponse();
+        $response = FrontController::getInstance()->getResponse();
         foreach ($response->getException() as $e) {
             $exception = get_class($e) . ': ' . $e->getMessage() 
                        . ' thrown in ' . str_replace($_SERVER['DOCUMENT_ROOT'], '', $e->getFile())

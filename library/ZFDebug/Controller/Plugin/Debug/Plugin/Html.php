@@ -10,6 +10,10 @@
  * @version    $Id$
  */
 
+namespace ZFDebug\Controller\Plugin\Debug\Plugin;
+
+use \Zend\Controller\Front as FrontController;
+
 /**
  * @category   ZFDebug
  * @package    ZFDebug_Controller
@@ -17,9 +21,7 @@
  * @copyright  Copyright (c) 2008-2009 ZF Debug Bar Team (http://code.google.com/p/zfdebug)
  * @license    http://code.google.com/p/zfdebug/wiki/License     New BSD License
  */
-class ZFDebug_Controller_Plugin_Debug_Plugin_Html 
-    extends ZFDebug_Controller_Plugin_Debug_Plugin 
-    implements ZFDebug_Controller_Plugin_Debug_Plugin_Interface
+class Html extends AbstractPlugin implements PluginInterface
 {
     /**
      * Contains plugin identifier name
@@ -77,9 +79,9 @@ class ZFDebug_Controller_Plugin_Debug_Plugin_Html
      */
     public function getPanel()
     {
-        $body = Zend_Controller_Front::getInstance()->getResponse()->getBody();
+        $body = FrontController::getInstance()->getResponse()->getBody();
         $liberrors = libxml_use_internal_errors(true);
-        $dom = new DOMDocument();
+        $dom = new \DOMDocument();
         $dom->loadHtml($body);
         libxml_use_internal_errors($liberrors);
         $panel = '<h4>HTML Information</h4>';

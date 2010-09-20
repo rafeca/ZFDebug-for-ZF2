@@ -10,6 +10,8 @@
  * @version    $Id: Text.php 154 2010-07-06 12:31:06Z gugakfugl $
  */
 
+namespace ZFDebug\Controller\Plugin\Debug\Plugin;
+
 /**
  * @category   ZFDebug
  * @package    ZFDebug_Controller
@@ -17,7 +19,7 @@
  * @copyright  Copyright (c) 2008-2009 ZF Debug Bar Team (http://code.google.com/p/zfdebug)
  * @license    http://code.google.com/p/zfdebug/wiki/License     New BSD License
  */
-class ZFDebug_Controller_Plugin_Debug_Plugin_Text implements ZFDebug_Controller_Plugin_Debug_Plugin_Interface
+class Text implements PluginInterface
 {
     /**
      * @var string

@@ -10,6 +10,8 @@
  * @version    $Id$
  */
 
+namespace ZFDebug\Controller\Plugin\Debug\Plugin\Log;
+
 /**
  * @category   ZFDebug
  * @package    ZFDebug_Controller
@@ -17,12 +19,12 @@
  * @copyright  Copyright (c) 2008-2009 ZF Debug Bar Team (http://code.google.com/p/zfdebug)
  * @license    http://code.google.com/p/zfdebug/wiki/License     New BSD License
  */
-class ZFDebug_Controller_Plugin_Debug_Plugin_Log_Writer extends Zend_Log_Writer_Abstract
+class Writer extends \Zend\Log\Writer\AbstractWriter
 {
     protected $_messages = array();
     protected $_errors = 0;
     
-    public static function factory($config)
+    static public function factory($config = array())
     {
         return new self();
     }
@@ -63,7 +65,7 @@ class ZFDebug_Controller_Plugin_Debug_Plugin_Log_Writer extends Zend_Log_Writer_
             $this->_errors++;
         }
 
-        if ($event['priority'] == ZFDebug_Controller_Plugin_Debug_Plugin_Log::ZFLOG) {
+        if ($event['priority'] == \ZFDebug\Controller\Plugin\Debug\Plugin\Log::ZFLOG) {
             $event['priorityName'] = $event['message']['time'];
             $event['memory'] = $event['message']['memory'];
             $event['message'] = $event['message']['message'];

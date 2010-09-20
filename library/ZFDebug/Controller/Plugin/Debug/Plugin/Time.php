@@ -10,15 +10,9 @@
  * @version    $Id: Time.php 152 2010-06-18 15:38:32Z gugakfugl $
  */
 
-/**
- * @see Zend_Session
- */
-require_once 'Zend/Session.php';
+namespace ZFDebug\Controller\Plugin\Debug\Plugin;
 
-/**
- * @see Zend_Session_Namespace
- */
-require_once 'Zend/Session/Namespace.php';
+use \Zend\Controller\Front as FrontController;
 
 /**
  * @category   ZFDebug
@@ -27,9 +21,7 @@ require_once 'Zend/Session/Namespace.php';
  * @copyright  Copyright (c) 2008-2009 ZF Debug Bar Team (http://code.google.com/p/zfdebug)
  * @license    http://code.google.com/p/zfdebug/wiki/License     New BSD License
  */
-class ZFDebug_Controller_Plugin_Debug_Plugin_Time 
-    extends Zend_Controller_Plugin_Abstract 
-    implements ZFDebug_Controller_Plugin_Debug_Plugin_Interface
+class Time extends \Zend\Controller\Plugin\AbstractPlugin implements PluginInterface
 {
     /**
      * Contains plugin identifier name
@@ -56,7 +48,7 @@ class ZFDebug_Controller_Plugin_Debug_Plugin_Time
      */
     public function __construct()
     {
-        Zend_Controller_Front::getInstance()->registerPlugin($this);
+        FrontController::getInstance()->registerPlugin($this);
     }
     
     /**
@@ -67,7 +59,7 @@ class ZFDebug_Controller_Plugin_Debug_Plugin_Time
     public function getLogger()
     {
         if (!$this->_logger) {
-            $this->_logger = Zend_Controller_Front::getInstance()
+            $this->_logger = FrontController::getInstance()
                 ->getPlugin('ZFDebug_Controller_Plugin_Debug')->getPlugin('Log')->getLog();
             $this->_logger->addPriority('Time', 9);
         }
@@ -132,16 +124,15 @@ class ZFDebug_Controller_Plugin_Debug_Plugin_Time
 
     public function getDispatchStatistics()
     {
-        if (!Zend_Session::isStarted()){
-            Zend_Session::start();
-        }
+        $session = new \Zend\Session\SessionManager();
+        $session->start();
 
-        $request = Zend_Controller_Front::getInstance()->getRequest();
+        $request = FrontController::getInstance()->getRequest();
         $this_module = $request->getModuleName();
         $this_controller = $request->getControllerName();
         $this_action = $request->getActionName();
 
-        $timerNamespace = new Zend_Session_Namespace('ZFDebug_Time',false);
+        $timerNamespace = new \Zend\Session\Container('ZFDebug_Time');
         $timerNamespace->data[$this_module][$this_controller][$this_action][] = round($this->_timer['dispatchLoopShutdown'],2);
 
         // Limit to last 10 requests
@@ -178,7 +169,7 @@ class ZFDebug_Controller_Plugin_Debug_Plugin_Time
      * @param Zend_Controller_Request_Abstract
      * @return void
      */
-    public function dispatchLoopStartup(Zend_Controller_Request_Abstract $request)
+    public function dispatchLoopStartup(\Zend\Controller\Request\AbstractRequest $request)
     {
         $this->_timer['dispatchLoopStartup'] = (microtime(true)-$_SERVER['REQUEST_TIME'])*1000;
     }
@@ -236,7 +227,7 @@ class ZFDebug_Controller_Plugin_Debug_Plugin_Time
     
     protected function _isXhtml()
     {
-        $view = Zend_Controller_Action_HelperBroker::getStaticHelper('viewRenderer')->view;
+        $view = \Zend\Controller\Action\HelperBroker::getStaticHelper('viewRenderer')->view;
         $doctype = $view->doctype();
         return $doctype->isXhtml();
     }

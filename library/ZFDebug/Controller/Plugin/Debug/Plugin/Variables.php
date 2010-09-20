@@ -10,6 +10,10 @@
  * @version    $Id: Variables.php 152 2010-06-18 15:38:32Z gugakfugl $
  */
 
+namespace ZFDebug\Controller\Plugin\Debug\Plugin;
+
+use \Zend\Controller\Front as FrontController;
+
 /**
  * @category   ZFDebug
  * @package    ZFDebug_Controller
@@ -17,7 +21,7 @@
  * @copyright  Copyright (c) 2008-2009 ZF Debug Bar Team (http://code.google.com/p/zfdebug)
  * @license    http://code.google.com/p/zfdebug/wiki/License     New BSD License
  */
-class ZFDebug_Controller_Plugin_Debug_Plugin_Variables extends ZFDebug_Controller_Plugin_Debug_Plugin implements ZFDebug_Controller_Plugin_Debug_Plugin_Interface
+class Variables extends AbstractPlugin implements PluginInterface
 {
     /**
      * Contains plugin identifier name
@@ -78,8 +82,8 @@ class ZFDebug_Controller_Plugin_Debug_Plugin_Variables extends ZFDebug_Controlle
      */
     public function getPanel()
     {
-        $this->_request = Zend_Controller_Front::getInstance()->getRequest();
-        $viewRenderer = Zend_Controller_Action_HelperBroker::getStaticHelper('viewRenderer');
+        $this->_request = FrontController::getInstance()->getRequest();
+        $viewRenderer = \Zend\Controller\Action\HelperBroker::getStaticHelper('viewRenderer');
         if ($viewRenderer->view && method_exists($viewRenderer->view, 'getVars')) {
             $viewVars = $this->_cleanData($viewRenderer->view->getVars());
         } else {
@@ -97,7 +101,7 @@ class ZFDebug_Controller_Plugin_Debug_Plugin_Variables extends ZFDebug_Controlle
                    . '<div id="ZFDebug_post" style="margin-left:-22px">' . $this->_cleanData($this->_request->getPost()) . '</div>';
         }
 
-        $registry = Zend_Registry::getInstance();
+        $registry = \Zend\Registry::getInstance();
         $vars .= '<h4>Zend Registry</h4>';
         $registry->ksort();
         $vars .= '<div id="ZFDebug_registry" style="margin-left:-22px">' . $this->_cleanData($registry) . '</div>';

@@ -10,6 +10,10 @@
  * @version    $Id: $
  */
 
+namespace ZFDebug\Controller\Plugin\Debug\Plugin;
+
+use Zend\Controller\Action\HelperBroker;
+
 /**
  * @category   ZFDebug
  * @package    ZFDebug_Controller
@@ -17,7 +21,7 @@
  * @copyright  Copyright (c) 2008-2009 ZF Debug Bar Team (http://code.google.com/p/zfdebug)
  * @license    http://code.google.com/p/zfdebug/wiki/License     New BSD License
  */
-class ZFDebug_Controller_Plugin_Debug_Plugin
+class AbstractPlugin
 {
     protected $_closingBracket = null;
 
@@ -46,7 +50,7 @@ class ZFDebug_Controller_Plugin_Debug_Plugin
     
     protected function _isXhtml()
     {
-        $view = Zend_Controller_Action_HelperBroker::getStaticHelper('viewRenderer')->view;
+        $view = HelperBroker::getStaticHelper('viewRenderer')->view;
         $doctype = $view->doctype();
         return $doctype->isXhtml();
     }

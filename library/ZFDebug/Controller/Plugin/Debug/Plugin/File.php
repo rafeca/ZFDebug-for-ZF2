@@ -10,6 +10,8 @@
  * @version    $Id: File.php 152 2010-06-18 15:38:32Z gugakfugl $
  */
 
+namespace ZFDebug\Controller\Plugin\Debug\Plugin;
+
 /**
  * @category   ZFDebug
  * @package    ZFDebug_Controller
@@ -17,9 +19,7 @@
  * @copyright  Copyright (c) 2008-2009 ZF Debug Bar Team (http://code.google.com/p/zfdebug)
  * @license    http://code.google.com/p/zfdebug/wiki/License     New BSD License
  */
-class ZFDebug_Controller_Plugin_Debug_Plugin_File 
-    extends ZFDebug_Controller_Plugin_Debug_Plugin 
-    implements ZFDebug_Controller_Plugin_Debug_Plugin_Interface
+class File extends AbstractPlugin implements PluginInterface
 {
     /**
      * Contains plugin identifier name

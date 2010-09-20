@@ -10,6 +10,10 @@
  * @version    $Id: Memory.php 152 2010-06-18 15:38:32Z gugakfugl $
  */
 
+namespace ZFDebug\Controller\Plugin\Debug\Plugin;
+
+use \Zend\Controller\Front as FrontController;
+
 /**
  * @category   ZFDebug
  * @package    ZFDebug_Controller
@@ -17,9 +21,7 @@
  * @copyright  Copyright (c) 2008-2009 ZF Debug Bar Team (http://code.google.com/p/zfdebug)
  * @license    http://code.google.com/p/zfdebug/wiki/License     New BSD License
  */
-class ZFDebug_Controller_Plugin_Debug_Plugin_Memory 
-    extends Zend_Controller_Plugin_Abstract 
-    implements ZFDebug_Controller_Plugin_Debug_Plugin_Interface
+class Memory extends \Zend\Controller\Plugin\AbstractPlugin implements PluginInterface
 {
     /**
      * Contains plugin identifier name
@@ -37,7 +39,7 @@ class ZFDebug_Controller_Plugin_Debug_Plugin_Memory
      */
     public function __construct()
     {
-        Zend_Controller_Front::getInstance()->registerPlugin($this);
+        FrontController::getInstance()->registerPlugin($this);
     }
     
     /**
@@ -48,8 +50,8 @@ class ZFDebug_Controller_Plugin_Debug_Plugin_Memory
     public function getLogger()
     {
         if (!$this->_logger) {
-            $this->_logger = Zend_Controller_Front::getInstance()
-                ->getPlugin('ZFDebug_Controller_Plugin_Debug')->getPlugin('Log');
+            $this->_logger = FrontController::getInstance()
+                ->getPlugin('\ZFDebug\Controller\Plugin\Debug')->getPlugin('Log');
             $this->_logger->getLog()->addPriority('Memory', 8);
         }
         return $this->_logger;

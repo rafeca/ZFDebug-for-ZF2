@@ -10,6 +10,12 @@
  * @version    $Id$
  */
 
+namespace ZFDebug\Controller\Plugin\Debug\Plugin;
+
+use Zend\Controller\Front as FrontController;
+
+use \Zend\Controller\Request\AbstractRequest as AbstractRequest;
+
 /**
  * @category   ZFDebug
  * @package    ZFDebug_Controller
@@ -17,9 +23,7 @@
  * @copyright  Copyright (c) 2008-2009 ZF Debug Bar Team (http://code.google.com/p/zfdebug)
  * @license    http://code.google.com/p/zfdebug/wiki/License     New BSD License
  */
-class ZFDebug_Controller_Plugin_Debug_Plugin_Log
-    extends Zend_Controller_Plugin_Abstract 
-    implements ZFDebug_Controller_Plugin_Debug_Plugin_Interface
+class Log extends \Zend\Controller\Plugin\AbstractPlugin implements PluginInterface
 {
     const ZFLOG = 10;
     
@@ -30,9 +34,9 @@ class ZFDebug_Controller_Plugin_Debug_Plugin_Log
     
     public function __construct()
     {
-        Zend_Controller_Front::getInstance()->registerPlugin($this);
-        $this->_writer = new ZFDebug_Controller_Plugin_Debug_Plugin_Log_Writer();
-        $this->_logger = new Zend_Log($this->_writer);
+        FrontController::getInstance()->registerPlugin($this);
+        $this->_writer = new Log\Writer();
+        $this->_logger = new \Zend\Log\Logger($this->_writer);
         $this->_logger->addPriority('ZFLOG', self::ZFLOG);
     }
     
@@ -73,7 +77,7 @@ class ZFDebug_Controller_Plugin_Debug_Plugin_Log
      */
     public function getPanel()
     {
-        $request = Zend_Controller_Front::getInstance()->getRequest();
+        $request = FrontController::getInstance()->getRequest();
         $module = $request->getModuleName();
         if ('default' !== $module) {
             $module = " ($module module)";
@@ -152,7 +156,7 @@ class ZFDebug_Controller_Plugin_Debug_Plugin_Log
      * @param Zend_Controller_Request_Abstract
      * @return void
      */
-    public function routeStartup(Zend_Controller_Request_Abstract $request)
+    public function routeStartup(AbstractRequest $request)
     {
         $this->mark('Route');
     }
@@ -163,7 +167,7 @@ class ZFDebug_Controller_Plugin_Debug_Plugin_Log
      * @param Zend_Controller_Request_Abstract
      * @return void
      */
-    public function routeShutdown(Zend_Controller_Request_Abstract $request)
+    public function routeShutdown(AbstractRequest $request)
     {
         $this->mark('Route');
     }
@@ -174,7 +178,7 @@ class ZFDebug_Controller_Plugin_Debug_Plugin_Log
      * @param Zend_Controller_Request_Abstract
      * @return void
      */
-    public function preDispatch(Zend_Controller_Request_Abstract $request)
+    public function preDispatch(AbstractRequest $request)
     {
         $this->mark(
             $request->getControllerName() . 'Controller::'.
@@ -188,7 +192,7 @@ class ZFDebug_Controller_Plugin_Debug_Plugin_Log
      * @param Zend_Controller_Request_Abstract
      * @return void
      */
-    public function postDispatch(Zend_Controller_Request_Abstract $request)
+    public function postDispatch(AbstractRequest $request)
     {
         $this->mark(
             $request->getControllerName() . 'Controller::'.
@@ -202,7 +206,7 @@ class ZFDebug_Controller_Plugin_Debug_Plugin_Log
      * @param Zend_Controller_Request_Abstract
      * @return void
      */
-    public function dispatchLoopStartup(Zend_Controller_Request_Abstract $request)
+    public function dispatchLoopStartup(AbstractRequest $request)
     {
         $this->mark('Dispatch');
     }
