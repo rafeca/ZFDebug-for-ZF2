@@ -1,6 +1,6 @@
 # ZFDebug for Zend Framework 2
 
-Fork of [ZFDebug bar](http://code.google.com/p/zfdebug/) that enables the integration
+Fork of [Joakim Nygård](http://jokke.dk/)'s [ZFDebug bar](http://code.google.com/p/zfdebug/) that enables the integration
 with Zend Framework 2.0
 
 Currently it is based on an experimental version of ZFDebug 1.6, grabbed from its SVN
@@ -41,3 +41,4 @@ lines within the environment where you want to display the ZFDebug bar (normally
 
 You can find more information about those params and more resources regarding the
 installation in the official [ZFDebug page](http://code.google.com/p/zfdebug/wiki/Installation)
+
